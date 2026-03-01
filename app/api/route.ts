@@ -22,7 +22,7 @@ export async function GET(req: Request) {
 
             const text = await res.text();
         // log raw response for debugging
-        console.log("/api GET users status", res.status, text);
+        // console.log("/api GET users status", res.status, text);
 
         if (!res.ok) {
           // forward status and body (could be plain text)

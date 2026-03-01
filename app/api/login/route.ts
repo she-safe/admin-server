@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
 const URL = "http://bounding.246897.xyz";
 
@@ -32,8 +32,9 @@ export async function POST(req: Request) {
 
     const token = data.token;
 
+    const response = NextResponse.json({ success: true });
     if (token) {
-      (await cookies()).set("token", token, {
+      response.cookies.set("token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
       });
     }
 
-    return new Response(JSON.stringify({ success: true }));
+    return response;
   } catch {
     return new Response(JSON.stringify({ message: "Server error" }), {
       status: 500,

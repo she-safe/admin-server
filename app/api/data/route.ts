@@ -1,6 +1,4 @@
 import { cookies } from "next/headers";
-import { json } from "stream/consumers";
-
 const URL = "http://bounding.246897.xyz";
 
 export async function POST(req: Request) {

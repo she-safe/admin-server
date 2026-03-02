@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
+require("dotenv").config()
 
-const URL = "http://bounding.246897.xyz";
+const DbServerURL = process.env.DbServerUrl||"http://bounding.246897.xyz";
 
 export async function GET(req: Request) {
     const token = (await cookies()).get("token")?.value;
@@ -13,7 +14,7 @@ export async function GET(req: Request) {
     }
 
     try {
-        const res = await fetch(`${URL}/admin/users`, {
+        const res = await fetch(`${DbServerURL}/admin/users`, {
             headers: {
                 Authorization: `Bearer ${token}`
             },

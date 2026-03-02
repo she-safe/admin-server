@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
+require("dotenv").config()
 
-const URL = "http://bounding.246897.xyz";
+const DbServerURL = process.env.DbServerUrl||"http://bounding.246897.xyz";
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const res = await fetch(`${URL}/adminlogin`, {
+    const res = await fetch(`${DbServerURL}/adminlogin`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ adminName: username, password }),

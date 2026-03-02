@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
-const URL = "http://bounding.246897.xyz";
+require("dotenv").config()
+
+const DbServerURL = process.env.DbServerUrl||"http://bounding.246897.xyz";
 
 export async function POST(req: Request) {
     // parse incoming JSON and extract userId property
@@ -20,7 +22,7 @@ export async function POST(req: Request) {
       });
     }
     try {
-        const res = await fetch(`${URL}/admin/data`, {
+        const res = await fetch(`${DbServerURL}/admin/data`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

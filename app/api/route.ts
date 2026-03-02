@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 require("dotenv").config()
 
-const DbServerURL = process.env.DbServerUrl||"http://bounding.246897.xyz";
+const DbServerURL = process.env.DbServerURL||"http://bounding.246897.xyz";
 
 export async function GET(req: Request) {
     const token = (await cookies()).get("token")?.value;

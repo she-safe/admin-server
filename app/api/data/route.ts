@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 require("dotenv").config()
 
-const DbServerURL = process.env.DbServerUrl||"http://bounding.246897.xyz";
+const DbServerURL = process.env.DbServerURL||"http://bounding.246897.xyz";
 
 export async function POST(req: Request) {
     // parse incoming JSON and extract userId property

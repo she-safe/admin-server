@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 require("dotenv").config()
 
-const DbServerURL = process.env.DbServerURL||"http://bounding.246897.xyz";
+const DbServerURL = process.env.DbServerURL||"http://localhost:3000";
 
 export async function POST(req: Request) {
   try {

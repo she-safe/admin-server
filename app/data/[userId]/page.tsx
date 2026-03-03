@@ -6,6 +6,7 @@ import BackButton from "@/components/back";
 
 type UserData = {
     userId: string;
+    username:string;
     location: {
         latitude: number;
         longitude: number;
@@ -75,7 +76,7 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
             <div className="flex justify-center">
                 <div className=" bg-neutral-800 w-9/10 border rounded-3xl">
                     <h1 className="mt-6 text-white text-3xl font-bold ml-5">
-                        {userData?.userId}
+                        {userData?.username}
                     </h1>
                     <div className="my-6 justify-center flex items-center">
                         <div className="w-1/3 mr-7">

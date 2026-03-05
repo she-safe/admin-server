@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation"
 export default function Home() {
   return (
     <>
@@ -14,6 +15,7 @@ type UserType = {
 };
 
 export function Users() {
+  const router = useRouter();
   const [users, setUsers] = useState<UserType[]>([]);
   useEffect(() => {
     async function fetchUsers() {
@@ -22,9 +24,11 @@ export function Users() {
         const text = await res.text();
         console.error("Failed to load users", res.status, text);
         // you might redirect to login or show a message
+        // if(text=="Invalid Admin")router.replace("/login");
         return;
       }
       const data = await res.json();
+      if(data.message=="Invalid Admin")router.replace("/login");
       setUsers(data);
     }
     fetchUsers();

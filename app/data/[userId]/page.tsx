@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // react-leaflet components are rendered in a client component (see MapClient.tsx)
 import MapWrapper from "./MapWrapper";
 import BackButton from "@/components/back";
+import { useRouter } from "next/navigation"
 
 type UserData = {
     userId: string;
@@ -21,6 +22,7 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
     const [userData, setUserData] = useState<UserData | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const router = useRouter();
 
     useEffect(() => {
         async function fetchData() {
@@ -32,8 +34,10 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
                     body: JSON.stringify({ userId }),
                 });
                 const data = await res.json();
+                if(data.message=="Invalid Admin")router.replace("/login");
                 if (!res.ok) {
                     setError(data.message || "Failed to load user data");
+                    // if(data.message=="Invalid Admin")router.replace("/login");
                     return;
                 }
                 setUserData(data);

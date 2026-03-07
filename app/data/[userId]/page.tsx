@@ -89,7 +89,7 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
                         <div className="w-1/3 mr-7">
                             <MapWrapper location={location} zoom={zoom} />
                         </div>
-                        <div className="bg-gray-900 w-1/3 h-120 text-neutral-300 rounded-2xl p-6 flex flex-col justify-between">
+                        <div className="bg-gray-900 w-1/3 h-120 text-neutral-300 rounded-2xl p-6 flex flex-col justify-between overflow-scroll">
                             <div className="flex flex-col gap-4">
                                 <div className="border border-neutral-700 rounded-lg p-2">
                                     <p className="text-lg font-semibold">

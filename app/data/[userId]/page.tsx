@@ -7,11 +7,12 @@ import { useRouter } from "next/navigation"
 
 type UserData = {
     userId: string;
-    username:string;
-    location: {
+    username: string;
+    location: [{
         latitude: number;
         longitude: number;
-    };
+        timestamp: Date;
+    }];
     score: number;
     updatedAt: string;
     createdAt: string;
@@ -34,7 +35,7 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
                     body: JSON.stringify({ userId }),
                 });
                 const data = await res.json();
-                if(data.message=="Invalid Admin")router.replace("/login");
+                if (data.message == "Invalid Admin") router.replace("/login");
                 if (!res.ok) {
                     setError(data.message || "Failed to load user data");
                     // if(data.message=="Invalid Admin")router.replace("/login");
@@ -54,9 +55,11 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
     const zoom = 10; // default
     const timestamp = new Date().toISOString();
 
-    const position: [number, number] = userData
-        ? [userData.location.latitude, userData.location.longitude]
-        : [0, 0];
+    // const position: [number, number] = userData
+    // ? [userData.location.latitude, userData.location.longitude]
+    // : [0, 0];
+
+    const location = userData?.location
 
     if (loading) {
         return (
@@ -66,7 +69,7 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
         );
     }
 
-    if (error||!userData) {
+    if (error || !userData) {
         return (
             <div className="flex justify-center items-center h-screen">
                 <p className="text-red-500">{error}</p>
@@ -84,7 +87,7 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
                     </h1>
                     <div className="my-6 justify-center flex items-center">
                         <div className="w-1/3 mr-7">
-                            <MapWrapper position={position} zoom={zoom} timestamp={timestamp} />
+                            <MapWrapper location={location} zoom={zoom} />
                         </div>
                         <div className="bg-gray-900 w-1/3 h-120 text-neutral-300 rounded-2xl p-6 flex flex-col justify-between">
                             <div className="flex flex-col gap-4">
@@ -93,11 +96,12 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
                                         Score: <span className="font-normal text-blue-400">{userData?.score}</span>
                                     </p>
                                 </div>
-                                <div className="border border-neutral-700 rounded-lg p-2">
-                                    <p className="text-lg font-semibold">
-                                        Location: <span className="font-normal text-blue-400">{userData?.location.latitude}, {userData?.location.longitude}</span>
-                                    </p>
-                                </div>
+                                {location?.map((u, idx) => {
+                                    return (
+
+                                        <LocationDisplay location={[location[idx].latitude, location[idx].longitude]} />
+                                    )
+                                })}
                             </div>
                             <div className="flex flex-col gap-2 text-sm text-neutral-400">
                                 <div className="border border-neutral-700 rounded-lg p-2">
@@ -113,4 +117,14 @@ export default function Page({ params }: { params: Promise<{ userId: string }> }
             </div>
         </>
     );
+}
+
+export function LocationDisplay(props: { location: [number, number] }) {
+    return (
+        <div className="border border-neutral-700 rounded-lg p-2">
+            <p className="text-lg font-semibold">
+                Location: <span className="font-normal text-blue-400">{props.location[0]}, {props.location[1]}</span>
+            </p>
+        </div>
+    )
 }

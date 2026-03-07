@@ -21,21 +21,42 @@ L.Icon.Default.mergeOptions({
 });
 
 export interface MapClientProps {
-  position: [number, number];
+  location: [{
+    latitude: number;
+    longitude: number;
+    timestamp: Date;
+  }] | undefined;
   zoom?: number; // defaults to 10
-  timestamp: string;
 }
 
-export default function MapClient({ position, zoom = 10, timestamp }: MapClientProps) {
+export default function MapClient({ location, zoom = 10 }: MapClientProps) {
+  if (!location) return (<h1>No Location</h1>)
+  var latAvg = 0;
+  var lonAvg = 0;
+  var i = 0;
+  for (var loc of location) {
+    i++;
+    latAvg += loc.latitude;
+    lonAvg += loc.longitude;
+  }
+  latAvg /= i;
+  lonAvg /= i;
   return (
-    <MapContainer center={position} zoom={zoom} scrollWheelZoom={false} style={{ height: '30rem', width: '100%' }}>
+    <MapContainer center={[latAvg, lonAvg]} zoom={zoom} scrollWheelZoom={false} style={{ height: '30rem', width: '100%' }}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={position}>
-        <Popup>{timestamp}</Popup>
-      </Marker>
+      {location.map((u, idx) => {
+        return (
+          <Marker position={[location[idx].latitude,location[idx].longitude]}>
+            <Popup>{location[idx].timestamp.toLocaleString()}</Popup>
+          </Marker>);
+      })}
     </MapContainer>
   );
+}
+
+export function Markers(props: {}) {
+
 }

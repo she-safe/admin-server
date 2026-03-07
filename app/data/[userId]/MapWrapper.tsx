@@ -6,9 +6,12 @@ import dynamic from "next/dynamic";
 const MapClient = dynamic(() => import("./MapClient"), { ssr: false });
 
 export interface MapWrapperProps {
-  position: [number, number];
+  location: [{
+    latitude: number;
+    longitude: number;
+    timestamp: Date;
+  }]|undefined;
   zoom?: number;
-  timestamp: string;
 }
 
 export default function MapWrapper(props: MapWrapperProps) {

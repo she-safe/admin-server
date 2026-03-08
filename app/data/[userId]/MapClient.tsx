@@ -57,6 +57,3 @@ export default function MapClient({ location, zoom = 10 }: MapClientProps) {
   );
 }
 
-export function Markers(props: {}) {
-
-}
